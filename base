@@ -1,0 +1,96 @@
+create database tedba;
+use tedba;
+create table sucursal 
+(
+id_sucursal int primary key not null,
+direccion varchar (50),
+telefono varchar(15)
+);
+create table provedor
+(
+id_provedor int primary key not null,
+nombre varchar (50),
+apellidos varchar (50),
+telefono varchar (15),
+categoria_povedor varchar(50)
+);
+create table categoria 
+(
+id_categoria int primary key not null,
+nombre varchar(50),
+descipcion varchar(100)
+);
+create table cliente
+(
+id_cliente int primary key not null,
+nombre_cliente varchar (50),
+apellido varchar(50),
+numeo_cliente int,
+sexo varchar (10),
+telefono varchar (15)
+);
+create table empleado 
+(
+id_empleado int primary key not null,
+nombre_empleado varchar (50),
+apellido_empleado varchar(50),
+sexo_empleado varchar (10),
+codigo_empleado int,
+id_sucursal int,
+foreign key(id_sucursal) references sucursal(id_sucursal)
+);
+create table venta 
+(
+id_venta int primary key not null,
+folio int,
+fecha datetime,
+forma_pago varchar (20),
+id_empleado int,
+id_cliente int,
+foreign key(id_empleado)references empleado(id_empleado),
+foreign key(id_cliente)references cliente(id_cliente)
+);
+create table producto
+(
+id_producto int primary key not null,
+sku int,
+codigo_barras int,
+nombre varchar (50),
+descripcion varchar (100),
+costp float,
+presio_may float,
+presio_men float,
+cantidad int,
+id_categoria int,
+foreign key (id_categoria) references categoria(id_categoria)
+);
+create table almacen
+(
+id_almacen int primary key not null,
+id_provedor int,
+foreign key (id_provedor) references provedor(id_provedor)
+);
+create table venta_detalle 
+(
+id_venta_detalle int primary key not null,
+id_venta int,
+id_producto int,
+cantidad int,
+foreign key (id_venta) references venta(id_venta),
+foreign key (id_producto) references producto(id_producto)
+);
+alter table producto
+add
+id_provedor int,
+add
+foreign key (id_provedor) references provedor(id_provedor);
+alter table producto
+add
+id_almacen int,
+add
+foreign key (id_almacen) references almacen(id_almacen);
+
+alter table almacen
+add descripcion varchar(100);
+
+
